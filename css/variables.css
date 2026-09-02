@@ -1,0 +1,79 @@
+/*========== VARIABLES.CSS ==========*/
+/* ===== LIGHT MODE ===== */
+:root {
+  /* ---------- Warna Latar & Text ---------- */
+  --bg-primary: #f7f7fb;
+  --bg-secondary: #ffffff;
+  --bg-tertiary: #eef0f7;
+
+  --text-primary: #1f2333;
+  --text-secondary: #5c6072;
+  --text-muted: #9598a6;
+
+  --border: #e2e4ee;
+  --border-strong: #c9ccdb;
+
+  --accent-primary: #5b5fef;
+  --accent-primary-hover: #4a4ed8;
+
+  --status-todo: #f0973b;
+  --status-progress: #3b82f0;
+  --status-done: #22b06b;
+
+  --danger-color: #e5484d;
+  --success-color: #22b06b;
+  --success-bg: #e9f9ef;
+
+  /* ---------- Spacing & Radius ---------- */
+  --space-3xs: 0.25rem;
+  --space-2xs: 0.5rem;
+  --space-xs: 0.75rem;
+  --space-sm: 1rem;
+  --space-md: 1.5rem;
+  --space-lg: 2.5rem;
+  --space-xl: 4rem;
+
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-full: 999px;
+
+  /* ---------- Font Size & Font Family ---------- */
+  --font-display: "Outfit", sans-serif;
+  --font-body: "DM Sans", sans-serif;
+
+  --font-xs: 0.75rem;
+  --font-sm: 0.875rem;
+  --font-dasar: 1rem;
+  --font-md: 1.15rem;
+  --font-lg: 1.6rem;
+  --font-xl: 2.2rem;
+  --font-2xl: 2.75rem;
+  --font-3xl: 3.4rem;
+
+  /* ---------- Transisi & Shadow ---------- */
+  --transition-fast: 0.15s ease;
+  --transition-md: 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+
+  --shadow-sm: 0 1px 3px rgba(31, 35, 51, 0.08);
+  --shadow-md: 0 4px 14px rgba(31, 35, 51, 0.12);
+}
+
+/* ===== DARK MODE ===== */
+body.dark {
+  /* ---------- Warna Latar & Text ---------- */
+  --bg-primary: #14161f;
+  --bg-secondary: #1c1f2b;
+  --bg-tertiary: #262a3a;
+
+  --text-primary: #f2f3f8;
+  --text-secondary: #a7abbd;
+  --text-muted: #6b6f82;
+
+  --border: #2d3142;
+  --border-strong: #3d4257;
+
+  --success-bg: #10301f;
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.4);
+}

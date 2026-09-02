@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!--Meta Tags-->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Planbo - Interactive Kanban Task Manager</title>
+    <meta
+      name="description"
+      content="Planbo is a modern, interactive Kanban workspace designed for seamless task management. Drag, drop, and track your projects effortlessly."
+    />
+    <meta name="author" content="Planbo" />
+
+    <!--Open Graph-->
+    <meta
+      property="og:title"
+      content="Planbo - Interactive Kanban Task Manager"
+    />
+    <meta
+      property="og:description"
+      content="Planbo is a modern, interactive Kanban workspace designed for seamless task management. Drag, drop, and track your projects effortlessly."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="planbo" />
+    <meta property="og:locale" content="id_ID" />
+
+    <!--Favicon-->
+    <link
+      rel="shortcut icon"
+      href="assets/logo/favicon.ico"
+      type="image/x-icon"
+    />
+    <link rel="apple-touch-icon" href="assets/logo/apple-touch-icon.png" />
+
+    <!--Google Font-->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Outfit:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
+
+    <!--Feather Icons-->
+    <script src="https://unpkg.com/feather-icons"></script>
+
+    <!--CSS Link-->
+    <link rel="stylesheet" href="css/variables.css" />
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <link rel="stylesheet" href="css/layout.css" />
+  </head>
+  <body>
+    <!--Skip Link-->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <!--Header & Navigation-->
+    <header class="header">
+      <div class="header-inner container">
+        <div class="header-brand">
+          <img
+            src="assets/logo/logo.png"
+            alt="Planbo logo"
+            class="header-image"
+          />
+          <span>Plan<span class="header-title-accent">bo</span></span>
+        </div>
+
+        <nav class="board-switch" aria-label="Navigation board">
+          <label for="boardSelect" class="sr-only">Select a board</label>
+          <select
+            name="boardSelect"
+            aria-describedby="boardSelectHint"
+          ></select>
+          <span id="boardSelectHint" class="sr-only"
+            >Select the board you want to display</span
+          >
+
+          <button
+            id="newBoardBtn"
+            class="btn-icon"
+            aria-label="Create new board"
+          >
+            <i data-feather="plus" aria-hidden="true"></i>
+          </button>
+        </nav>
+
+        <div class="header-actions">
+          <!--Statistics Button-->
+          <button
+            class="btn-icon"
+            id="statBtn"
+            aria-label="View board statistics"
+            aria-haspopup="dialog"
+          >
+            <i data-feather="bar-chart-2" aria-hidden="true"></i>
+          </button>
+
+          <!--Theme Button-->
+          <button
+            class="btn-icon"
+            id="themeBtn"
+            aria-label="Choose light/dark theme"
+          >
+            <i data-feather="moon" aria-hidden="true" id="themeIcon"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!--Main Content-->
+    <main class="main container" id="main-content">
+      <section class="board-wrapper" aria-label="Kanban board" role="region">
+        <div class="board" id="board" aria-live="polite"></div>
+      </section>
+    </main>
+
+    <!--Feather Icons-->
+    <script>
+      feather.replace();
+    </script>
+
+    <!--JavaScript-->
+    <script type="module" src="js/main.js"></script>
+  </body>
+</html>
