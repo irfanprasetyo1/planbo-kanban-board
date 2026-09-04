@@ -88,7 +88,9 @@
 /* ===== CARD ===== */
 .card {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
   gap: var(--space-2xs);
   background-color: var(--bg-primary);
   border: 1px solid var(--border);
@@ -102,6 +104,31 @@
     box-shadow var(--transition-fast);
 }
 
+.card-text {
+  flex: 1;
+}
+
+.card-delete-btn {
+  color: var(--text-muted);
+  opacity: 0;
+  flex-shrink: 0;
+  transition: opacity var(--transition-fast);
+}
+
+@media (hover: none) {
+  .card-delete-btn {
+    opacity: 1;
+  }
+}
+
+.card:hover .card-delete-btn {
+  opacity: 1;
+}
+
+.card-delete-btn:hover {
+  color: var(--danger-color, #e5484d);
+}
+
 .card:hover {
   box-shadow: var(--shadow-sm);
   transform: translateY(-1px);
@@ -111,6 +138,109 @@
   cursor: grabbing;
 }
 
+.card.is-new {
+  opacity: 0;
+  transform: scale(0.9) translateY(-8px);
+}
+
+.card.is-new.is-visible {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
+.card.is-removing {
+  opacity: 0;
+  transform: scale(0.95);
+}
+
 .card.is-dragging {
   opacity: 0.4;
+}
+
+.card.is-touch-dragging {
+  opacity: 0.85;
+  box-shadow: var(--shadow-md);
+  pointer-events: none;
+}
+
+/* ===== OVERLAY ===== */
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  background-color: rgba(0, 0, 0, 0.4);
+
+  opacity: 0;
+  transition: opacity var(--transition-md);
+}
+
+.overlay.is-open {
+  opacity: 1;
+}
+
+/* ===== STATISTICS ===== */
+.stats-dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 95;
+  transform: translate(-50%, -50%) scale(0.95);
+  background-color: var(--bg-secondary);
+  width: min(90%, 400px);
+  border-radius: var(--radius-md);
+  padding: var(--space-sm);
+  box-shadow: var(--shadow-sm);
+  opacity: 0;
+  transition:
+    opacity var(--transition-md),
+    transform var(--transition-md);
+}
+
+.stats-dialog.is-open {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.stats-dialog-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-sm);
+}
+
+.stats-metric {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border);
+  padding-block: var(--space-2xs);
+  font-size: var(--font-sm);
+}
+
+.stats-metric:last-child {
+  border-bottom: none;
+}
+
+/* ===== TOAST ===== */
+.toast {
+  position: fixed;
+  bottom: 90px;
+  left: 50%;
+  width: calc(100% - var(--space-md) * 2);
+  max-width: 340px;
+  transform: translateX(-50%) translateY(325%);
+  background-color: var(--success-color);
+  color: #fff;
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-full);
+  font-size: var(--font-sm);
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  z-index: 200;
+  transition: transform var(--transition-md);
+}
+
+.toast.is-visible {
+  transform: translateX(-50%) translateY(0);
 }

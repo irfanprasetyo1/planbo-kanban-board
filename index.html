@@ -67,10 +67,7 @@
 
         <nav class="board-switch" aria-label="Navigation board">
           <label for="boardSelect" class="sr-only">Select a board</label>
-          <select
-            name="boardSelect"
-            aria-describedby="boardSelectHint"
-          ></select>
+          <select id="boardSelect" aria-describedby="boardSelectHint"></select>
           <span id="boardSelectHint" class="sr-only"
             >Select the board you want to display</span
           >
@@ -78,9 +75,19 @@
           <button
             id="newBoardBtn"
             class="btn-icon"
+            title="Create Board"
             aria-label="Create new board"
           >
             <i data-feather="plus" aria-hidden="true"></i>
+          </button>
+
+          <button
+            class="btn-icon"
+            id="deleteBoardBtn"
+            title="Delete Board"
+            aria-label="Delete current board"
+          >
+            <i data-feather="trash-2" aria-hidden="true"></i>
           </button>
         </nav>
 
@@ -89,6 +96,7 @@
           <button
             class="btn-icon"
             id="statBtn"
+            title="Statistics"
             aria-label="View board statistics"
             aria-haspopup="dialog"
           >
@@ -99,6 +107,7 @@
           <button
             class="btn-icon"
             id="themeBtn"
+            title="Choose theme"
             aria-label="Choose light/dark theme"
           >
             <i data-feather="moon" aria-hidden="true" id="themeIcon"></i>
@@ -113,6 +122,72 @@
         <div class="board" id="board" aria-live="polite"></div>
       </section>
     </main>
+
+    <!--Overlay untuk statistics-->
+    <div class="overlay" id="statOverlay" hidden></div>
+
+    <!--Toolbar untuk Export , Import, dan Undo-->
+    <div class="floating-toolbar" role="toolbar" aria-label="Board action">
+      <!--Undo-->
+      <button
+        id="undoBtn"
+        class="btn-icon"
+        title="Undo"
+        aria-label="Undo last action"
+        disabled
+      >
+        <i data-feather="corner-up-left" aria-hidden="true"></i>
+      </button>
+
+      <!--Export-->
+      <button
+        id="exportBtn"
+        class="btn-icon"
+        title="Export"
+        aria-label="Export board data"
+      >
+        <i data-feather="download" aria-hidden="true"></i>
+      </button>
+
+      <!--Import-->
+      <button
+        id="importBtn"
+        class="btn-icon"
+        title="Import"
+        aria-label="Import board data"
+      >
+        <i data-feather="upload" aria-hidden="true"></i>
+      </button>
+      <input type="file" id="importInput" accept=".json" hidden />
+    </div>
+
+    <!--Statistics-->
+    <div
+      class="stats-dialog"
+      id="statDialog"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="statsTitle"
+      hidden
+    >
+      <div class="stats-dialog-header">
+        <h2 id="statsTitle">Statistics Board</h2>
+        <button
+          id="statCloseBtn"
+          class="btn-icon"
+          aria-label="Close statictics"
+        >
+          <i data-feather="x" aria-hidden="true"></i>
+        </button>
+      </div>
+      <div class="stats-dialog-body" id="statsBody"></div>
+    </div>
+
+    <!--Toast Notification-->
+    <div class="toast" id="toast" role="status" aria-live="polite">
+      <i data-feather="check-circle" aria-hidden="true"></i>
+      <span id="toastMessage">Success Action</span>
+    </div>
 
     <!--Feather Icons-->
     <script>

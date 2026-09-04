@@ -1,4 +1,14 @@
-import { getActiveBoard, addCard, moveCard } from "../data/state.js";
+import {
+  getActiveBoard,
+  addCard,
+  moveCard,
+  deleteCard,
+} from "../data/state.js";
+import { showToast } from "./toast.js";
+import { initTouchDrag } from "./touch-drag.js";
+import { recordSnapshot } from "./undo.js";
+
+let recentlyChangedCardId = null;
 
 //Fungsi untuk membuat element card di HTML
 function createCardElement(card, columnId) {
@@ -6,7 +16,31 @@ function createCardElement(card, columnId) {
   cardEl.className = "card";
   cardEl.dataset.cardId = card.id;
   cardEl.dataset.columnId = columnId;
-  cardEl.textContent = card.judul;
+
+  const cardText = document.createElement("span");
+  cardText.className = "card-text";
+  cardText.textContent = card.judul;
+  cardEl.appendChild(cardText);
+
+  const deleteBtn = document.createElement("button");
+  deleteBtn.className = "card-delete-btn";
+  deleteBtn.innerHTML = `<i data-feather="trash-2" aria-hidden="true"></i>`;
+  deleteBtn.setAttribute("aria-label", `Delete card: ${card.judul}`);
+  deleteBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+
+    const konfirmasi = confirm(`Delete card "${card.judul}"?`);
+
+    if (!konfirmasi) return;
+    cardEl.classList.add("is-removing");
+    setTimeout(() => {
+      recordSnapshot();
+      deleteCard(columnId, card.id);
+      renderBoard();
+      showToast("Delete card success");
+    }, 150);
+  });
+  cardEl.appendChild(deleteBtn);
 
   cardEl.draggable = true;
   cardEl.addEventListener("dragstart", (e) => {
@@ -21,6 +55,14 @@ function createCardElement(card, columnId) {
   cardEl.addEventListener("dragend", () => {
     cardEl.classList.remove("is-dragging");
   });
+  initTouchDrag(cardEl, card, columnId);
+
+  if (card.id === recentlyChangedCardId) {
+    cardEl.classList.add("is-new");
+    requestAnimationFrame(() => {
+      cardEl.classList.add("is-visible");
+    });
+  }
 
   return cardEl;
 }
@@ -64,7 +106,9 @@ function createColumnElement(column) {
 
     if (payload.fromColumnId === column.id) return;
 
+    recordSnapshot();
     moveCard(payload.cardId, payload.fromColumnId, column.id);
+    recentlyChangedCardId = payload.cardId;
     renderBoard();
   });
 
@@ -72,12 +116,14 @@ function createColumnElement(column) {
 
   const addBtn = document.createElement("button");
   addBtn.className = "add-card-btn";
-  addBtn.innerHTML = `<i data-feather="plus" aria-hidden="true"></i> Tambah kartu`;
+  addBtn.innerHTML = `<i data-feather="plus" aria-hidden="true"></i> Create card`;
   addBtn.addEventListener("click", () => {
     const judul = prompt("New card title:");
     if (!judul || !judul.trim()) return;
 
-    addCard(column.id, judul.trim());
+    recordSnapshot();
+    const newCard = addCard(column.id, judul.trim());
+    recentlyChangedCardId = newCard.id;
     renderBoard();
   });
   columnEl.appendChild(addBtn);
@@ -95,6 +141,8 @@ export function renderBoard() {
     boardEl.appendChild(createColumnElement(column));
   });
 
+  recentlyChangedCardId = null;
+
   if (window.feather) {
     feather.replace();
   }
@@ -103,3 +151,7 @@ export function renderBoard() {
     boardEl.classList.add("is-ready");
   });
 }
+
+document.addEventListener("board:cardMoved", () => {
+  renderBoard();
+});

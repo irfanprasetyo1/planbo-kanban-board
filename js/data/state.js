@@ -7,12 +7,12 @@ function persist() {
   saveData(data);
 }
 
-//Fungsi untuk mengembalikan data yang sedang aktif
+//Fungsi untuk mengambil seluruh state data aplikasi saat ini
 export function getState() {
   return data;
 }
 
-//Fungsi untuk mencari dan mengembalikan board berdasarkan ID
+//Fungsi untuk mengambil objek board yang sedang aktif berdasarkan activeBoardId
 export function getActiveBoard() {
   return data.boards.find((b) => b.id === data.activeBoardId);
 }
@@ -24,10 +24,10 @@ export function setActiveBoard(boardId) {
 }
 
 //Fungsi untuk membuat board baru
-export function addBoard(nama) {
+export function addBoard(name) {
   const newBoard = {
     id: generateId("board"),
-    nama,
+    name,
     columns: [
       { id: generateId("col"), name: "To Do", cards: [] },
       { id: generateId("col"), name: "In Progress", cards: [] },
@@ -38,14 +38,30 @@ export function addBoard(nama) {
   data.boards.push(newBoard);
   data.activeBoardId = newBoard.id;
   persist();
-  return newBoard();
+  return newBoard;
+}
+
+//Fungsi untuk menghapus board
+export function deleteBoard(boardId) {
+  if (data.boards.length <= 1) return false;
+
+  data.boards = data.boards.filter((b) => b.id !== boardId);
+
+  if (data.activeBoardId === boardId) {
+    data.activeBoardId = data.boards[0].id;
+  }
+  persist();
+  return true;
 }
 
 //Fungsi untuk membuat card baru
 export function addCard(columnId, judul) {
   const board = getActiveBoard();
   const column = board.columns.find((c) => c.id === columnId);
-  column.cards.push({ id: generateId("card"), judul });
+  const newCard = { id: generateId("card"), judul };
+  column.cards.push(newCard);
+  persist();
+  return newCard;
 }
 
 //Fungsi untuk memindahkan card
@@ -64,7 +80,7 @@ export function moveCard(cardId, fromColumnId, toColumnId) {
 export function deleteCard(columnId, cardId) {
   const board = getActiveBoard();
   const column = board.columns.find((c) => c.id === columnId);
-  column.cards = column.cards.filter((c) => c !== cardId);
+  column.cards = column.cards.filter((c) => c.id !== cardId);
 
   persist();
 }
